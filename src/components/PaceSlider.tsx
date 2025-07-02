@@ -13,9 +13,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   const maxPace = 600; // 10:00 min/unit
 
   const handleSliderChange = (values: number[]) => {
-    // Auto-snap to nearest 5-second interval
-    const snapValue = Math.round(values[0] / 5) * 5;
-    onPaceChange(snapValue);
+    onPaceChange(values[0]);
   };
 
   const getPaceZoneColor = (paceValue: number) => {
@@ -44,7 +42,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
           onValueChange={handleSliderChange}
           max={maxPace}
           min={minPace}
-          step={5}
+          step={1}
           className="relative z-10"
         />
       </div>
