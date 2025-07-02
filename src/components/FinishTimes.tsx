@@ -14,7 +14,7 @@ const FinishTimes = ({ pace, unit }: FinishTimesProps) => {
     { distance: 15, label: `15 ${unit}` },
     { distance: 20, label: `20 ${unit}` },
     { 
-      distance: unit === 'km' ? 21.0975 : 13.1094, 
+      distance: unit === 'km' ? 21.1 : 13.1094, 
       label: `Half Marathon` 
     },
     { 
@@ -22,7 +22,7 @@ const FinishTimes = ({ pace, unit }: FinishTimesProps) => {
       label: unit === 'km' ? '30 km' : '18.64 mi'
     },
     { 
-      distance: unit === 'km' ? 42.195 : 26.219, 
+      distance: unit === 'km' ? 42.2 : 26.219, 
       label: `Full Marathon` 
     },
   ];
