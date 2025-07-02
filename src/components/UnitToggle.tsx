@@ -12,7 +12,7 @@ const UnitToggle = ({
       <Label htmlFor="unit-toggle" className="text-white font-medium">
         km
       </Label>
-      <Switch id="unit-toggle" checked={unit === 'mi'} onCheckedChange={checked => onUnitChange(checked ? 'mi' : 'km')} className="data-[state=checked]:bg-blue-500 text-slate-700" />
+      <Switch id="unit-toggle" checked={unit === 'mi'} onCheckedChange={checked => onUnitChange(checked ? 'mi' : 'km')} className="text-slate-700 bg-teal-700 hover:bg-teal-600" />
       <Label htmlFor="unit-toggle" className="text-white font-medium">
         mi
       </Label>
