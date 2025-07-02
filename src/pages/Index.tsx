@@ -29,9 +29,7 @@ const Index = () => {
             <h1 className="text-4xl font-bold text-white mb-2">
               Running Pace Calculator
             </h1>
-            <p className="text-blue-200">
-              Calculate your running pace and finish times
-            </p>
+            <p className="text-blue-200">Calculate your finish time and running pace</p>
           </div>
           <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
         </div>
