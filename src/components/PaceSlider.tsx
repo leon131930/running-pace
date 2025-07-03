@@ -38,12 +38,15 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Allow typing mm:ss format
-    if (value.match(/^\d{1,2}:\d{0,2}$/)) {
+    // Allow typing mm:ss format - more flexible pattern
+    if (value.match(/^\d{1,2}:\d{1,2}$/) || value.match(/^\d{1,2}:$/)) {
       try {
-        const paceInSeconds = parseTime(value);
-        if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
-          onPaceChange(paceInSeconds);
+        // Only parse if we have a complete format
+        if (value.includes(':') && value.split(':')[1].length === 2) {
+          const paceInSeconds = parseTime(value);
+          if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
+            onPaceChange(paceInSeconds);
+          }
         }
       } catch {
         // Invalid format, ignore
@@ -63,7 +66,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
         <Input
           value={formatPace(pace)}
           onChange={handlePaceInputChange}
-          className="text-3xl font-bold text-center bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 w-32 mx-auto h-auto p-0 text-3xl"
+          className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-3xl font-bold"
           placeholder="5:00"
         />
         <div className="text-blue-200 mt-2">
