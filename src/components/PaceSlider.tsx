@@ -1,6 +1,7 @@
 
 import { Slider } from "@/components/ui/slider";
-import { formatPace } from "@/utils/paceCalculations";
+import { Input } from "@/components/ui/input";
+import { formatPace, parseTime } from "@/utils/paceCalculations";
 
 interface PaceSliderProps {
   pace: number;
@@ -16,6 +17,21 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
     onPaceChange(values[0]);
   };
 
+  const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow typing mm:ss format
+    if (value.match(/^\d{1,2}:\d{0,2}$/)) {
+      try {
+        const paceInSeconds = parseTime(value);
+        if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
+          onPaceChange(paceInSeconds);
+        }
+      } catch {
+        // Invalid format, ignore
+      }
+    }
+  };
+
   const getPaceZoneColor = (paceValue: number) => {
     if (paceValue <= 180) return 'from-green-400 to-green-600'; // Fast
     if (paceValue <= 300) return 'from-yellow-400 to-orange-500'; // Moderate
@@ -25,9 +41,12 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <div className="text-3xl font-bold text-white mb-2">
-          {formatPace(pace)}
-        </div>
+        <Input
+          value={formatPace(pace)}
+          onChange={handlePaceInputChange}
+          className="text-3xl font-bold text-center bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 w-32 mx-auto"
+          placeholder="5:00"
+        />
         <div className="text-blue-200">
           min/{unit}
         </div>
