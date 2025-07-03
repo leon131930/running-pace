@@ -1,4 +1,5 @@
 
+import { useState, useEffect } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { formatPace, parseTime } from "@/utils/paceCalculations";
@@ -12,9 +13,27 @@ interface PaceSliderProps {
 const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   const minPace = 60; // 1:00 min/unit
   const maxPace = 600; // 10:00 min/unit
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSliderChange = (values: number[]) => {
-    onPaceChange(values[0]);
+    let newPace = values[0];
+    
+    // Snap to nearest 5 seconds on mobile
+    if (isMobile) {
+      newPace = Math.round(newPace / 5) * 5;
+    }
+    
+    onPaceChange(newPace);
   };
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +63,10 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
         <Input
           value={formatPace(pace)}
           onChange={handlePaceInputChange}
-          className="text-3xl font-bold text-center bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 w-32 mx-auto"
+          className="text-3xl font-bold text-center bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 w-32 mx-auto h-auto p-0 text-3xl"
           placeholder="5:00"
         />
-        <div className="text-blue-200">
+        <div className="text-blue-200 mt-2">
           min/{unit}
         </div>
       </div>
@@ -61,7 +80,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
           onValueChange={handleSliderChange}
           max={maxPace}
           min={minPace}
-          step={1}
+          step={isMobile ? 5 : 1}
           className="relative z-10"
         />
       </div>
