@@ -42,25 +42,21 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   };
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/[^0-9:]/g, ''); // Only allow numbers and colon
-    // Always enforce a single colon at position 2
-    if (value.length > 2 && value[2] !== ':') {
-      value = value.slice(0, 2) + ':' + value.slice(2).replace(':', '');
-    }
-    if (value.length === 2 && !value.includes(':')) {
-      value = value + ':';
-      // Move cursor to after colon
-      setTimeout(() => {
-        if (inputRef.current) inputRef.current.setSelectionRange(3, 3);
-      }, 0);
-    }
-    // Prevent deleting the colon
-    if (value.length === 3 && value[2] !== ':') {
-      value = value.slice(0, 2) + ':';
+    let raw = e.target.value.replace(/[^0-9]/g, ''); // Only allow numbers
+    // Only allow up to 3 digits (mss)
+    if (raw.length > 3) raw = raw.slice(0, 3);
+    // Only allow minute 0-8
+    if (raw.length > 0 && parseInt(raw[0], 10) > 8) raw = '8' + raw.slice(1);
+    // Format as m:ss
+    let value = raw;
+    if (raw.length > 1) {
+      value = raw[0] + ':' + raw.slice(1).padEnd(2, '0');
+    } else if (raw.length === 1) {
+      value = raw[0] + ':00';
     }
     setInputValue(value);
     // Only update pace if valid
-    if (/^\d{1,2}:\d{2}$/.test(value)) {
+    if (/^[0-8]:\d{2}$/.test(value)) {
       try {
         const paceInSeconds = parseTime(value);
         if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
@@ -83,6 +79,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
           ref={inputRef}
           value={inputValue}
           onChange={handlePaceInputChange}
+          maxLength={4}
           className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-3xl md:text-4xl lg:text-5xl font-bold"
           placeholder="5:00"
         />
