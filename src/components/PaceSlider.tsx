@@ -13,6 +13,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   const minPace = 120; // 2:00 min/unit
   const maxPace = 480; // 8:00 min/unit
   const [isMobile, setIsMobile] = useState(false);
+  const [inputValue, setInputValue] = useState(formatPace(pace));
 
   useEffect(() => {
     const checkMobile = () => {
@@ -23,6 +24,10 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  useEffect(() => {
+    setInputValue(formatPace(pace));
+  }, [pace]);
 
   const handleSliderChange = (values: number[]) => {
     let newPace = values[0];
@@ -37,18 +42,19 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setInputValue(value);
     // Allow typing mm:ss format - more flexible pattern
-    if (value.match(/^\d{1,2}:\d{1,2}$/) || value.match(/^\d{1,2}:$/)) {
-      try {
-        // Only parse if we have a complete format
-        if (value.includes(':') && value.split(':')[1].length === 2) {
+    if (/^\d{1,2}:\d{0,2}$/.test(value)) {
+      const [min, sec] = value.split(":");
+      if (sec && sec.length === 2) {
+        try {
           const paceInSeconds = parseTime(value);
           if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
             onPaceChange(paceInSeconds);
           }
+        } catch {
+          // Invalid format, ignore
         }
-      } catch {
-        // Invalid format, ignore
       }
     }
   };
@@ -63,7 +69,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
     <div className="space-y-4">
       <div className="text-center">
         <Input
-          value={formatPace(pace)}
+          value={inputValue}
           onChange={handlePaceInputChange}
           className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-3xl md:text-4xl lg:text-5xl font-bold"
           placeholder="5:00"
