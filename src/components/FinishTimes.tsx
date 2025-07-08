@@ -53,7 +53,7 @@ const FinishTimes = ({
       </div>
 
       <div className="space-y-3">
-        <Label htmlFor="custom-distance" className="text-white text-white ">
+        <Label htmlFor="custom-distance" className="text-lg font-semibold text-white">
           Or add your own distance
         </Label>
         <div className="flex items-center gap-4">
