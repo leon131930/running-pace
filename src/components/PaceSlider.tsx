@@ -42,27 +42,30 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   };
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let raw = e.target.value.replace(/[^0-9]/g, ''); // Only allow numbers
-    // Only allow up to 3 digits (mss)
-    if (raw.length > 3) raw = raw.slice(0, 3);
-    // Only allow minute 0-8
-    if (raw.length > 0 && parseInt(raw[0], 10) > 8) raw = '8' + raw.slice(1);
-    // Format as m:ss
-    let value = raw;
-    if (raw.length > 1) {
-      value = raw[0] + ':' + raw.slice(1).padEnd(2, '0');
-    } else if (raw.length === 1) {
-      value = raw[0] + ':00';
-    }
-    setInputValue(value);
-    // Only update pace if valid
-    if (/^[0-8]:\d{2}$/.test(value)) {
+    let digits = e.target.value.replace(/[^0-9]/g, ''); // Strip everything except numbers
+  
+    // Limit to 3 digits: 1 for minutes, 2 for seconds
+    if (digits.length > 3) digits = digits.slice(0, 3);
+  
+    // Extract minute and seconds
+    const minutes = digits.slice(0, 1);
+    let seconds = digits.slice(1).padEnd(2, '0').slice(0, 2);
+  
+    // Clamp minutes to max 8
+    const clampedMin = Math.min(parseInt(minutes || '0', 10), 8).toString();
+  
+    const formatted = `${clampedMin}:${seconds}`;
+    setInputValue(formatted);
+  
+    if (/^[0-8]:[0-5]\d$/.test(formatted)) {
       try {
-        const paceInSeconds = parseTime(value);
+        const paceInSeconds = parseTime(formatted);
         if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
           onPaceChange(paceInSeconds);
         }
-      } catch {}
+      } catch {
+        // Do nothing on parse error
+      }
     }
   };
 
