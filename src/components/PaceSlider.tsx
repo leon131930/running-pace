@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { formatPace, parseTime } from "@/utils/paceCalculations";
@@ -14,6 +14,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   const maxPace = 480; // 8:00 min/unit
   const [isMobile, setIsMobile] = useState(false);
   const [inputValue, setInputValue] = useState(formatPace(pace));
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -41,21 +42,31 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
   };
 
   const handlePaceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value = e.target.value.replace(/[^0-9:]/g, ''); // Only allow numbers and colon
+    // Always enforce a single colon at position 2
+    if (value.length > 2 && value[2] !== ':') {
+      value = value.slice(0, 2) + ':' + value.slice(2).replace(':', '');
+    }
+    if (value.length === 2 && !value.includes(':')) {
+      value = value + ':';
+      // Move cursor to after colon
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.setSelectionRange(3, 3);
+      }, 0);
+    }
+    // Prevent deleting the colon
+    if (value.length === 3 && value[2] !== ':') {
+      value = value.slice(0, 2) + ':';
+    }
     setInputValue(value);
-    // Allow typing mm:ss format - more flexible pattern
-    if (/^\d{1,2}:\d{0,2}$/.test(value)) {
-      const [min, sec] = value.split(":");
-      if (sec && sec.length === 2) {
-        try {
-          const paceInSeconds = parseTime(value);
-          if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
-            onPaceChange(paceInSeconds);
-          }
-        } catch {
-          // Invalid format, ignore
+    // Only update pace if valid
+    if (/^\d{1,2}:\d{2}$/.test(value)) {
+      try {
+        const paceInSeconds = parseTime(value);
+        if (paceInSeconds >= minPace && paceInSeconds <= maxPace) {
+          onPaceChange(paceInSeconds);
         }
-      }
+      } catch {}
     }
   };
 
@@ -69,6 +80,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
     <div className="space-y-4">
       <div className="text-center">
         <Input
+          ref={inputRef}
           value={inputValue}
           onChange={handlePaceInputChange}
           className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-3xl md:text-4xl lg:text-5xl font-bold"
