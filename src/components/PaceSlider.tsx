@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
@@ -66,7 +65,7 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
         <Input
           value={formatPace(pace)}
           onChange={handlePaceInputChange}
-          className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-4xl font-bold"
+          className="bg-transparent border-none text-white focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-white/50 text-center w-32 mx-auto h-auto p-0 text-4xl md:text-5xl lg:text-6xl font-bold"
           placeholder="5:00"
         />
         <div className="text-blue-200 mt-2">
