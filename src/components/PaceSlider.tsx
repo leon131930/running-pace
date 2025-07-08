@@ -11,8 +11,8 @@ interface PaceSliderProps {
 }
 
 const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
-  const minPace = 60; // 1:00 min/unit
-  const maxPace = 600; // 10:00 min/unit
+  const minPace = 120; // 2:00 min/unit
+  const maxPace = 480; // 8:00 min/unit
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -89,9 +89,9 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
       </div>
       
       <div className="flex justify-between text-sm text-blue-200">
-        <span>Fast (1:00)</span>
+        <span>Fast (2:00)</span>
         <span>Moderate (5:00)</span>
-        <span>Slow (10:00)</span>
+        <span>Slow (8:00)</span>
       </div>
     </div>
   );
