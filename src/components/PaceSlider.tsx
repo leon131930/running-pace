@@ -67,9 +67,8 @@ const PaceSlider = ({ pace, onPaceChange, unit }: PaceSliderProps) => {
       </div>
       
       <div className="flex justify-between text-sm text-blue-200">
-        <span>Fast (2:00)</span>
-        <span>Moderate (5:00)</span>
-        <span>Slow (8:00)</span>
+        <span>Sprint pace (2:00)</span>
+        <span>Slow / recovery pace (8:00)</span>
       </div>
     </div>
   );
