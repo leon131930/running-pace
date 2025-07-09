@@ -41,7 +41,7 @@ const DistanceTimeCalculator = ({
         <div className=" ">
           <h3 className="text-lg font-semibold text-white">Time</h3>
           <div className="grid grid-cols-3 gap-3">
-            <div className="space-y">
+            <div className="space-y-2">
               <Label htmlFor="hours" className="text-white">
                 Hours
               </Label>
