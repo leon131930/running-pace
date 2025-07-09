@@ -52,7 +52,7 @@ const DistanceTimeCalculator = ({
               <Label htmlFor="minutes" className="text-white">
                 Minutes
               </Label>
-              <Input id="minutes" type="number" min="0" max="59" placeholder="30" value={minutes} onChange={e => setMinutes(e.target.value)} className="bg-white/10 border-blue-300/20 text-white placeholder:text-blue-200" />
+              <Input id="minutes" type="number" min="0" max="59" placeholder="0" value={minutes} onChange={e => setMinutes(e.target.value)} className="bg-white/10 border-blue-300/20 text-white placeholder:text-blue-200" />
             </div>
 
             <div className="space-y-2">
