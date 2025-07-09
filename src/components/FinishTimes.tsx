@@ -38,7 +38,7 @@ const FinishTimes = ({
   }];
   const customDistanceValue = parseFloat(customDistance);
   const isValidCustomDistance = !isNaN(customDistanceValue) && customDistanceValue > 0;
-  return <div className="space-y-6">
+  return <div className="space-y-4 md:space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {distances.map(({
         distance,

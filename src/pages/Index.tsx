@@ -34,11 +34,11 @@ const Index = () => {
           <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-4 md:space-y-8">
           {/* Section 1: Start from pace */}
           <Card className="p-6 bg-white/10 backdrop-blur-sm border-blue-300/20">
             <h2 className="text-2xl font-semibold text-white mb-6">Calculate finish time</h2>
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               <PaceSlider pace={pace} onPaceChange={setPace} unit={unit} />
               <FinishTimes pace={pace} unit={unit} />
             </div>
