@@ -29,9 +29,16 @@ const Index = () => {
             <h1 className="text-4xl font-bold text-white mb-2">
               Running Pace Calculator
             </h1>
-            <p className="text-blue-200">Calculate your finish time and running pace</p>
+            <div className="flex items-center justify-between">
+              <p className="text-blue-200">Calculate your finish time and running pace</p>
+              <div className="md:hidden">
+                <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
+              </div>
+            </div>
           </div>
-          <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
+          <div className="hidden md:block">
+            <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
+          </div>
         </div>
 
         <div className="space-y-4 md:space-y-8">
