@@ -27,9 +27,9 @@ const DistanceTimeCalculator = ({
   return <div className="space-y-4 md:space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Distance Section */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           <h3 className="text-lg font-semibold text-white">Distance</h3>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="distance" className="text-white">
               Distance ({unit})
             </Label>
