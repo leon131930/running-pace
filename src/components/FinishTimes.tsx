@@ -39,13 +39,13 @@ const FinishTimes = ({
   const customDistanceValue = parseFloat(customDistance);
   const isValidCustomDistance = !isNaN(customDistanceValue) && customDistanceValue > 0;
   return <div className="space-y-4 md:space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {distances.map(({
         distance,
         label
       }) => {
         const finishTime = calculateFinishTime(distance, pace);
-        return <div key={label} className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-blue-300/10 hover:bg-white/10 transition-colors">
+        return <div key={label} className="bg-white/5 backdrop-blur-sm rounded-lg p-2 md:p-4 border border-blue-300/10 hover:bg-white/10 transition-colors">
               <div className="text-sm text-blue-200 mb-1">{label}</div>
               <div className="text-lg font-semibold text-white">{finishTime}</div>
             </div>;
