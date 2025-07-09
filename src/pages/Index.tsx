@@ -24,14 +24,18 @@ const Index = () => {
   return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-white mb-2">
               Running Pace Calculator
             </h1>
-            <p className="text-blue-200">Calculate your finish time and running pace</p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <p className="text-blue-200">Calculate your finish time and running pace</p>
+              <div className="mt-2 md:mt-0 md:ml-4">
+                <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
+              </div>
+            </div>
           </div>
-          <UnitToggle unit={unit} onUnitChange={handleUnitChange} />
         </div>
 
         <div className="space-y-4 md:space-y-8">
