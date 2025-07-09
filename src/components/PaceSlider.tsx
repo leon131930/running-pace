@@ -55,7 +55,7 @@ const PaceSlider = ({
       </div>
       
       <div className="flex justify-between text-sm text-blue-200">
-        <span>Sprint pace (2:00)</span>
+        <span>Sprint (2:00)</span>
         <span>Recovery (8:00)</span>
       </div>
     </div>;
